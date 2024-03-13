@@ -1,17 +1,13 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: inline
----
+
 
 ```{r}
 library(RSQLite)
 library(readr)
 ```
 
-# Data Import
+
 ```{r}
-my_connection<- RSQLite::dbConnect(RSQLite::SQLite(), "mydatabase.db")
+my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),"mydatabase.db")
 ```
 
 ```{r}
@@ -24,6 +20,7 @@ Promotion <- readr::read_csv("Data_upload/Promotion.csv")
 Sales <- readr::read_csv("Data_upload/Sales.csv")
 Settlement <- readr::read_csv("Data_upload/Settlement.csv")
 Supplier <- readr::read_csv("Data_upload/Supplier.csv")
+
 ```
 
 ```{r}
@@ -36,12 +33,11 @@ RSQLite::dbWriteTable(my_connection, "Promotion", Promotion, append = TRUE)
 RSQLite::dbWriteTable(my_connection, "Sales", Sales, append = TRUE)
 RSQLite::dbWriteTable(my_connection, "Settlement", Settlement, append = TRUE)
 RSQLite::dbWriteTable(my_connection, "Supplier", Supplier, append = TRUE)
+
 ```
 
-#  Validation
-```{sql, connection=my_connection}
+```{sql connection=my_connection}
 SELECT *
-FROM Product
+FROM product
 ```
-
 
