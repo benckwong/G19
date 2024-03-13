@@ -5,7 +5,6 @@ library(RSQLite)
 library(readr)
 ```
 
-
 ```{r}
 my_connection <- RSQLite::dbConnect(RSQLite::SQLite(),"mydatabase.db")
 ```
