@@ -1,4 +1,3 @@
-
 library(ggplot2)
 
 product_data <- read.csv("Data_upload/product.csv")
