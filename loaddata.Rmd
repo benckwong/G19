@@ -1,0 +1,61 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+```{r}
+library(RSQLite)
+library(readr)
+library(ggplot2)
+```
+
+```{r}
+my_connection<- RSQLite::dbConnect(RSQLite::SQLite(), "mydatabase.db")
+```
+
+
+```{r}
+Category <- readr::read_csv("Data_upload/Category.csv")
+Customer <- readr::read_csv("Data_upload/Customer.csv")
+Order <- readr::read_csv("Data_upload/Order.csv")
+Payment <- readr::read_csv("Data_upload/Payment.csv")
+Product <- readr::read_csv("Data_upload/Product.csv")
+Promotion <- readr::read_csv("Data_upload/Promotion.csv")
+Sales <- readr::read_csv("Data_upload/Sales.csv")
+Settlement <- readr::read_csv("Data_upload/Settlement.csv")
+Supplier <- readr::read_csv("Data_upload/Supplier.csv")
+```
+
+```{r}
+RSQLite::dbWriteTable(my_connection, "Category", Category, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Customer", Customer, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Order", Order, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Payment", Payment, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Product", Product, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Promotion", Promotion, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Sales", Sales, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Settlement", Settlement, append = TRUE)
+RSQLite::dbWriteTable(my_connection, "Supplier", Supplier, append = TRUE)
+```
+
+```{sql, connection=my_connection}
+SELECT *
+FROM Product
+```
+```{r}
+product_data <- read.csv("Data_upload/Product.csv")
+
+# 创建散点图
+gg <- ggplot(product_data, aes(x = price, y = discount_rate)) +
+  geom_point() +
+  labs(title = "Price vs. Discount Rate",
+       x = "Price",
+       y = "Discount Rate")
+if (!file.exists("figure")) {
+  dir.create("figure")
+}
+
+# 将图保存到figure文件夹下的文件中
+ggsave("figure/price_vs_discount.png", plot = gg)
+```
+
