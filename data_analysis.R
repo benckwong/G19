@@ -1,7 +1,7 @@
 
 library(ggplot2)
 
-product_data <- read.csv("product.csv")
+product_data <- read.csv("Data_upload/product.csv")
 
 gg <- ggplot(product_data, aes(x = price, y = discount_rate)) +
   geom_point() +
