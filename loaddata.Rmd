@@ -3,16 +3,16 @@ output: html_document
 editor_options: 
   chunk_output_type: inline
 ---
+
 ```{r}
 library(RSQLite)
 library(readr)
-library(ggplot2)
 ```
 
+# Data Import
 ```{r}
 my_connection<- RSQLite::dbConnect(RSQLite::SQLite(), "mydatabase.db")
 ```
-
 
 ```{r}
 Category <- readr::read_csv("Data_upload/Category.csv")
@@ -38,24 +38,10 @@ RSQLite::dbWriteTable(my_connection, "Settlement", Settlement, append = TRUE)
 RSQLite::dbWriteTable(my_connection, "Supplier", Supplier, append = TRUE)
 ```
 
+#  Validation
 ```{sql, connection=my_connection}
 SELECT *
 FROM Product
 ```
-```{r}
-product_data <- read.csv("Data_upload/Product.csv")
 
-# 创建散点图
-gg <- ggplot(product_data, aes(x = price, y = discount_rate)) +
-  geom_point() +
-  labs(title = "Price vs. Discount Rate",
-       x = "Price",
-       y = "Discount Rate")
-if (!file.exists("figure")) {
-  dir.create("figure")
-}
-
-# 将图保存到figure文件夹下的文件中
-ggsave("figure/price_vs_discount.png", plot = gg)
-```
 
