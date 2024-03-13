@@ -8,8 +8,8 @@ gg <- ggplot(product_data, aes(x = price, y = discount_rate)) +
   labs(title = "Price vs. Discount Rate",
        x = "Price",
        y = "Discount Rate")
-if (!file.exists("figure")) {
-  dir.create("figure")
+if (!file.exists("figures")) {
+  dir.create("figures")
 }
 
 ggsave("figure/price_vs_discount.png", plot = gg)
