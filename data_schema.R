@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS 'Product'(
 );"
 
 #schema for customer table
-
 Customer_schema <- "
 CREATE TABLE IF NOT EXISTS 'Customer'(
   'customer_id' VARCHAR(6) PRIMARY KEY,
