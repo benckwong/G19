@@ -3,8 +3,8 @@ library(RSQLite)
 data <- dbConnect(SQLite(), "mydatabase.db")
 
 # Define the schema for the order table
-orders_schema <- "
-CREATE TABLE IF NOT EXISTS orders (
+Order_schema <- "
+CREATE TABLE IF NOT EXISTS Orders(
    order_id VARCHAR(6) PRIMARY KEY,
    product_id VARCHAR(6) NOT NULL,
    customer_id VARCHAR(6) NOT NULL,
@@ -16,28 +16,28 @@ CREATE TABLE IF NOT EXISTS orders (
    rating_date DATE NOT NULL,
    rating_score FLOAT,
    rating_comment CHAR,
-   FOREIGN KEY ('customer_id') REFERENCES customer ('customer_id'),
-   FOREIGN KEY ('product_id') REFERENCES product ('product_id')
+   FOREIGN KEY ('customer_id') REFERENCES Customer ('customer_id'),
+   FOREIGN KEY ('product_id') REFERENCES Product ('product_id')
 );"
 
 
 #schema for product table
-product_schema <- "
-CREATE TABLE IF NOT EXISTS 'product'(
+Product_schema <- "
+CREATE TABLE IF NOT EXISTS 'Product'(
   'product_id' VARCHAR(6) PRIMARY KEY,
   'category_id' VARCHAR(6) NOT NULL,
   'supplier_id' VARCHAR(6) NOT NULL,
   'product_name' CHAR,
   'price' FLOAT,
   ‘discount_rate’ FLOAT,
-  FOREIGN KEY ('category_id') REFERENCES category('category_id'),
-  FOREIGN KEY ('supplier_id') REFERENCES supplier('supplier_id')
+  FOREIGN KEY ('category_id') REFERENCES Category('category_id'),
+  FOREIGN KEY ('supplier_id') REFERENCES Supplier('supplier_id')
 );"
 
 #schema for customer table
 
-customer_schema <- "
-CREATE TABLE IF NOT EXISTS 'customer'(
+Customer_schema <- "
+CREATE TABLE IF NOT EXISTS 'Customer'(
   'customer_id' VARCHAR(6) PRIMARY KEY,
   'customer_first_name' CHAR(50),
   'customer_last_name' CHAR(50) ,
@@ -52,18 +52,18 @@ CREATE TABLE IF NOT EXISTS 'customer'(
 
 
 # Define the schema for the payment table
-payment_schema <- "
-CREATE TABLE IF NOT EXISTS payment (
+Payment_schema <- "
+CREATE TABLE IF NOT EXISTS Payment (
    'payment_id' VARCHAR(6) PRIMARY KEY,
    'order_id' VARCHAR(6),
    'payment_date' DATE,
    'payment_method' CHAR,
-   FOREIGN KEY ('order_id') REFERENCES order('order_id')
+   FOREIGN KEY ('order_id') REFERENCES Orders('order_id')
 );"
 
 #schema for supplier table
-supplier_schema <- "
-CREATE TABLE IF NOT EXISTS 'supplier'(
+Supplier_schema <- "
+CREATE TABLE IF NOT EXISTS 'Supplier'(
 'supplier_id' VARCHAR(6) PRIMARY KEY,
 'seller_name'  TEXT,
 'seller_email' VARCHAR(200),
@@ -79,55 +79,58 @@ CREATE TABLE IF NOT EXISTS 'supplier'(
 
 
 # Define the schema for settlement table
-settlement_schema <- "
-CREATE TABLE IF NOT EXISTS payment (
+Settlement_schema <- "
+CREATE TABLE IF NOT EXISTS Settlement (
    settlement_id VARCHAR(6) PRIMARY KEY,
    settlement_date DATE,
    settlement_type BINARY,
    sale_id VARCHAR(6),
-   FOREIGN KEY ('sale_id') REFERENCES sale('sale_id')
+   FOREIGN KEY ('sale_id') REFERENCES Sales('sale_id')
 );"
 
-# Define the schema for sale table
-sale_schema <- "
-CREATE TABLE IF NOT EXISTS sale (
+# Define the schema for sales table
+Sales_schema <- "
+CREATE TABLE IF NOT EXISTS Sales (
     sale_id VARCHAR(6) PRIMARY KEY,
     supplier_id VARCHAR(6),
     product_id VARCHAR(6),
     sale_date DATE,
-    FOREIGN KEY ('product_id') REFERENCES product('product_id'),
-    FOREIGN KEY ('supplier_id') REFERENCES supplier('supplier_id'),
+    FOREIGN KEY ('product_id') REFERENCES Product('product_id'),
+    FOREIGN KEY ('supplier_id') REFERENCES Supplier('supplier_id')
 );"
 
 # Define the schema for category table
-category_schema <- "
-CREATE TABLE IF NOT EXISTS category (
+Category_schema <- "
+CREATE TABLE IF NOT EXISTS Category (
   category_id VARCHAR(6) PRIMARY KEY,
+  product_id VARCHAR(6),
   category_name TEXT,
+  category_level INTEGER
 );"
 
+
 #schema for promotion table
-promotion_schema <- "
-CREATE TABLE IF NOT EXISTS 'promotion'(
+Promotion_schema <- "
+CREATE TABLE IF NOT EXISTS 'Promotion'(
   'promotion_id' VARCHAR(6) PRIMARY KEY,
   'supplier_id' VARCHAR(6),
   'promotion_name' CHAR,
   'promotion_fees' FLOAT ,
   'promotion_start_date' DATE,
   'promotion_end_date' DATE,
-  FOREIGN KEY ('supplier_id') REFERENCES supplier('supplier_id')
+  FOREIGN KEY ('supplier_id') REFERENCES Supplier('supplier_id')
 );"
 
 # Execute the schema creation queries
-dbExecute(data, orders_schema)
-dbExecute(data, product_schema)
-dbExecute(data, customer_schema)
-dbExecute(data, payment_schema)
-dbExecute(data, supplier_schema)
-dbExecute(data, settlement_schema)
-dbExecute(data, sale_schema)
-dbExecute(data, category_schema)
-dbExecute(data, promotion_schema)
+dbExecute(data, Orders_schema)
+dbExecute(data, Product_schema)
+dbExecute(data, Customer_schema)
+dbExecute(data, Payment_schema)
+dbExecute(data, Supplier_schema)
+dbExecute(data, Settlement_schema)
+dbExecute(data, Sales_schema)
+dbExecute(data, Category_schema)
+dbExecute(data, Promotion_schema)
 
 # Close the connection
 dbDisconnect(data)
