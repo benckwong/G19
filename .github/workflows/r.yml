@@ -39,7 +39,7 @@ jobs:
         run: |
           git commit -m "Add_test"
       - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@master
         with:
-            github_token: ${{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}}
-            branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
