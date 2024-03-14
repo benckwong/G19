@@ -37,7 +37,7 @@ jobs:
           git add --all figures/
       - name: Commit files
         run: |
-          git commit -m "Add"
+          git commit -m "Add_test"
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
